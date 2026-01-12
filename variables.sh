@@ -1,6 +1,5 @@
 #!/bin/bash
 
-echo "Please enter the PIN number"
-read PIN_Number
-echo "entered PIN number is incorrect"
-echo "please enter the correct pin number"
+echo "Select the Environment to deploy the new build"
+read Environment
+echo "We cannot implement changes in PROD"
