@@ -7,8 +7,11 @@ instances="mongodb, frontend, webserver"
 
 for instance in $instances
 do
-echo "Creating AWS INstances as requested"
+start_time=$(date +%s)
+echo "Creating AWS instance $instance as requested"
 instance_id=$(aws ec2 run-instances --image-id $ami --instance-type t3.micro  --security-group-ids $sg  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].InstanceId' --output text)
-echo "$instance is created successfully"
+end_time=$(date +%s)
+echo "$instance instance is created successfully"
+echo "Time taken to create instance is $(($end_time - $start_time))Seconds"
 done
 
