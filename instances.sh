@@ -9,5 +9,6 @@ for instance in $instances
 do
 echo "Creating AWS INstances as requested"
 instance_id=$(aws ec2 run-instances --image-id $ami --instance-type t3.micro  --security-group-ids $sg  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].InstanceId' --output text)
+echo "$instance is created successfully"
 done
-echo $instance_id
+
