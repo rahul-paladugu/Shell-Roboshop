@@ -31,7 +31,7 @@ do
   record_name=$record
  else
   ip=$(aws ec2 describe-instances --region us-east-1 --filters "Name=instance-id,Values=$instance_id" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)
-  record_name=$($instance.$record)
+  record_name="$instance.$record"
  fi
 echo "ip for $instance is $ip"
 #Creating R53 records for the instance created above
