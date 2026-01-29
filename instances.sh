@@ -4,10 +4,6 @@ sg="sg-03b441e0ba008f925"
 zone="Z0711084A6IKM873A3LI"
 record="rscloudservices.icu"
 
-logs_path="/var/logs/shell-roboshop"
-script_name="$(echo $0 |cut -d "." -f1)"
-mkdir -p $logs_path
-log="$logs_path/$script_name.log"
 echo "Please enter the instances to be created followed by a space"
 read instances
 
@@ -57,7 +53,7 @@ echo "ip for $instance is $ip"
         }
     ]
 }
-' &>>$log
+'
 error_validation r53_records
 echo "The r53 record for $instance is $instance.$record"
 done
