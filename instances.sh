@@ -46,7 +46,7 @@ echo "ip for $instance is $ip"
                 "TTL": 1,
                 "ResourceRecords": [
                     {
-                        "Value": "192.0.2.50"
+                        "Value": "'$ip'"
                     }
                 ]
             }
