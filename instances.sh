@@ -28,18 +28,20 @@ do
  #selecting IP address based on instance component
  if [ $instance = frontend ]; then
   ip=$(aws ec2 describe-instances --region us-east-1 --filters "Name=instance-id,Values=$instance_id" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+  record_name=$record
  else
   ip=$(aws ec2 describe-instances --region us-east-1 --filters "Name=instance-id,Values=$instance_id" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)
+  record_name=$($instance.$record)
  fi
 echo "ip for $instance is $ip"
 #Creating R53 records for the instance created above
- aws route53 change-resource-record-sets --hosted-zone-id "$zone" --change-batch <<EOF {
+ aws route53 change-resource-record-sets --hosted-zone-id "$zone" --change-batch ' {
     "Comment": "Create or Update A record via script",
     "Changes": [
         {
             "Action": "UPSERT",
             "ResourceRecordSet": {
-                "Name": "$instance.$record",
+                "Name": "'$record_name'",
                 "Type": "A",
                 "TTL": 1,
                 "ResourceRecords": [
@@ -51,7 +53,7 @@ echo "ip for $instance is $ip"
         }
     ]
 }
-EOF
+'
 error_validation r53_records
 echo "The r53 record for $instance is $(($instance.$record))"
 done
