@@ -33,7 +33,7 @@ do
  fi
 echo "ip for $instance is $ip"
 #Creating R53 records for the instance created above
-rec=$(aws route53 change-resource-record-sets --hosted-zone-id "$zone" --change-batch <<EOF {
+ aws route53 change-resource-record-sets --hosted-zone-id "$zone" --change-batch ' {
     "Comment": "Create or Update A record via script",
     "Changes": [
         {
@@ -51,9 +51,8 @@ rec=$(aws route53 change-resource-record-sets --hosted-zone-id "$zone" --change-
         }
     ]
 }
-EOF
-)
+'
 error_validation r53_records
-echo "The r53 record for $instance is $rec"
+echo "The r53 record for $instance is $(($instance.$record))"
 done
 
