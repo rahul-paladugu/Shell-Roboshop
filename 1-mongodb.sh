@@ -28,10 +28,10 @@ log="$logs_folder/$script_name.log"
 
 #Configuring Mongodb
 start_time=$(date +%s)
-echo -e "$yellow Copying Mongodb repo. $reset"
+echo -e "$yellow Copying Mongodb repo...... $reset"
 cp $(echo $PWD)/mongo.repo /etc/yum.repos.d/mongo.repo
 error_handler Adding_Repo_File
-echo -e "$yellow Installing Mongodb. $reset"
+echo -e "$yellow Installing Mongodb...... $reset"
 dnf install mongodb-org -y &>>$log
 error_handler Mongodb_Installation
 systemctl enable mongod &>>$log
