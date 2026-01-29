@@ -6,7 +6,7 @@ record="rscloudservices.icu"
 
 logs_path="/var/logs/shell-roboshop"
 script_name="$(echo $0 |cut -d "." -f1)"
-mkdir $logs_path
+mkdir -p $logs_path
 log="$logs_path/$script_name.log"
 echo "Please enter the instances to be created followed by a space"
 read instances
