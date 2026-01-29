@@ -5,10 +5,9 @@ green="\e[32m"
 yellow="\e[33m"
 reset="\e[0m"
 user=$(id -u)
-exit_code=$?
 #Validation Function to identify the errors.
 error_handler () {
-  if [ $exit_code -ne 0 ]; then
+  if [ $? -ne 0 ]; then
     echo -e "$red Execution of $1 is failure. Please review the logs. $reset"
     exit 1
   else
