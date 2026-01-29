@@ -55,6 +55,6 @@ echo "ip for $instance is $ip"
 }
 '
 error_validation r53_records
-echo "The r53 record for $instance is $(($instance.$record))"
+echo "The r53 record for $instance is $instance.$record"
 done
 
