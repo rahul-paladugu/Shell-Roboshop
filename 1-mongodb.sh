@@ -27,6 +27,7 @@ script_name=$(echo $0 | cut -d "." -f1)
 log="$logs_folder/$script_name.log"
 
 #Configuring Mongodb
+start_time=$(date +%s)
 echo -e "$yellow Copying Mongodb repo. $reset"
 cp $(echo $PWD)/mongo.repo /etc/yum.repos.d/mongo.repo
 error_handler Adding_Repo_File
@@ -38,6 +39,8 @@ error_handler enabling_service
 systemctl start mongod &>>$log
 error_handler start_the_service
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf 
-error_handler updating_ip
+error_handler binding_the_ip
 systemctl restart mongod &>>$log
 error_handler restarting_mongod_service
+end_time=$(date +%s)
+echo -e "$yellow Time taken to configure Mongodb is $(($end_time - $start_time)) Seconds. $reset"
