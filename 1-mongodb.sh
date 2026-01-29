@@ -28,7 +28,7 @@ log="$logs_folder/$script_name.log"
 
 #Configuring Mongodb
 echo -e "$yellow Copying Mongodb repo. $reset"
-cp $PWD /etc/yum.repos.d/mongo.repo
+cp "$(echo $PWD)/mongo.repo" "/etc/yum.repos.d/mongo.repo"
 error_handler Adding_Repo_File
 echo -e "$yellow Installing Mongodb. $reset"
 dnf install mongodb-org -y &>>$log
