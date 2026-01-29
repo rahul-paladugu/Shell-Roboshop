@@ -2,9 +2,10 @@
 
 red="\e[31m"
 green="\e[32m"
+yellow="\e[33m"
 reset="\e[0m"
 user=$(id -u)
-exit_code=$0
+exit_code=$?
 #Validation Function to identify the errors.
 error_handler () {
   if [ $exit_code -ne 0 ]; then
@@ -27,6 +28,7 @@ script_name=$(echo $0 | cut -d "." -f1)
 log="$logs_folder/$script_name.log"
 
 #Configuring Mongodb
+echo -e "$yellow Installing Mongodb. $reset"
 dnf install mongodb-org -y &>>$log
 error_handler Mongodb_Installation
 cp $PWD vim /etc/yum.repos.d/mongo.repo
