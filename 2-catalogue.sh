@@ -32,7 +32,7 @@ dnf module disable nodejs -y &>>$log
 error_handler nodejs
 echo -e "$yellow Enabling version 20 of Nodejs. $reset" &>>$log
 dnf module enable nodejs:20 -y $>>$log
-error_handler nodejs
+error_handler enabling_nodejs_20_Version
 echo -e "$yellow Installing Nodejs. $reset"
 dnf install nodejs -y &>>$log
 error_handler Install_nodejs
