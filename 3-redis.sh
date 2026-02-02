@@ -29,7 +29,7 @@ echo -e "$yellow Install Redis.. $reset"
 dnf install redis -y &>>$log
 echo -e "$yellow Binding IP & Disabling protected mode. $reset"
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf
-sed -i '111s/yes/no' /etc/redis/redis.conf
+sed -i '111s/protected-mode yes/protected-mode no/' /etc/redis/redis.conf
 echo -e "$yellow Enable & Start Redis.. $reset"
 systemctl enable redis &>>$log
 systemctl start redis
