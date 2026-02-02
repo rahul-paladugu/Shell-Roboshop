@@ -73,7 +73,7 @@ cp $script_directory/mongo.repo /etc/yum.repos.d/mongo.repo &>>$log
 error_handler mongo_repo
 dnf install mongodb-mongosh -y &>>$log
 error_handler install_mongosh
-mongosh --host mongodb.rscloudservices.icu </app/db/master-data. &>>$log
+mongosh --host mongodb.rscloudservices.icu </app/db/master-data.js &>>$log
 error_handler load_mongo_schema
 end_time=$(date +$s)
 echo -e "$yellow Catalogue configuration is completed. Time taken in $(($end_time - $start_time)) Seconds. $reset"
