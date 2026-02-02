@@ -8,6 +8,7 @@ reset="\e[0m"
 id=$(id -u)
 if [ $id -ne 0 ]; then
  echo -e "$red Please run the script using root access. $reset"
+ exit 1
 fi
 #Catching Errors
 set -e
