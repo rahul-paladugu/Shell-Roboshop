@@ -27,7 +27,7 @@ if [ $user -ne 0 ]; then
   exit 1
 fi
 #Catalogue Configuration
-start_time=$(date +$s)
+start_time=$(date +%s)
 echo -e "$yellow Disabling default version of Nodejs. $reset"
 dnf module disable nodejs -y &>>$log
 error_handler Disable_Nodejs
@@ -75,7 +75,7 @@ dnf install mongodb-mongosh -y &>>$log
 error_handler install_mongosh
 mongosh --host mongodb.rscloudservices.icu </app/db/master-data.js &>>$log
 error_handler load_mongo_schema
-end_time=$(date +$s)
+end_time=$(date +%s)
 echo -e "$yellow Catalogue configuration is completed. Time taken in $(($end_time - $start_time)) Seconds. $reset"
 
 
