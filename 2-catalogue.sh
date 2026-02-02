@@ -29,19 +29,19 @@ fi
 start_time=$(date +$s)
 echo -e "$yellow Disabling default version of Nodejs. $reset"
 dnf module disable nodejs -y &>>$log
-error_handler nodejs
-echo -e "$yellow Enabling version 20 of Nodejs. $reset" &>>$log
+error_handler Disable_Nodejs
+echo -e "$yellow Enabling version 20 of Nodejs. $reset"
 dnf module enable nodejs:20 -y &>>$log
-error_handler enabling_nodejs_20_Version
+error_handler Enabling_Nodejs_20_Version
 echo -e "$yellow Installing Nodejs. $reset"
 dnf install nodejs -y &>>$log
-error_handler Install_nodejs
+error_handler Install_Nodejs
 echo -e "$yellow Adding system User. $reset"
-id roboshop
+id roboshop &>>$log
 if [ $? -ne 0 ]; then
  useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$log
 else
- echo -e "$yellow User already exists. Skipping...... $reset"
+ echo -e "$blue User already exists. Skipping...... $reset"
 fi
 error_handler system_user
 mkdir -p /app 
