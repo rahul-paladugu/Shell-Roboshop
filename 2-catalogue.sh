@@ -69,11 +69,11 @@ systemctl start catalogue
 error_handler start_service
 echo -e "$blue Catalogue service configuration is sucess.... $reset"
 #Configuring the mongodb in catalogue.
-cp $script_directory/mongo.repo /etc/yum.repos.d/mongo.repo
+cp $script_directory/mongo.repo /etc/yum.repos.d/mongo.repo &>>$log
 error_handler mongo_repo
 dnf install mongodb-mongosh -y &>>$log
 error_handler install_mongosh
-mongosh --host mongodb.rscloudservices.icu </app/db/master-data.js
+mongosh --host mongodb.rscloudservices.icu </app/db/master-data. &>>$log
 error_handler load_mongo_schema
 end_time=$(date +$s)
 echo -e "$yellow Catalogue configuration is completed. Time taken in $(($end_time - $start_time)) Seconds. $reset"
