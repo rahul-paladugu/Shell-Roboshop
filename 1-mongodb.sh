@@ -8,10 +8,10 @@ user=$(id -u)
 #Validation Function to identify the errors.
 error_handler () {
   if [ $? -ne 0 ]; then
-    echo -e "$red Execution of $1 is failure. Please review the logs. $reset"
+    echo -e "$red $1 is failed. Please review the logs. $reset"
     exit 1
   else
-    echo -e "$green Execution of $1 is success. $reset"
+    echo -e "$green $1 is success. $reset"
   fi
 }
 

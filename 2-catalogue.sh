@@ -3,15 +3,16 @@
 red="\e[31m"
 green="\e[32m"
 yellow="\e[33m"
+blue="\e[34m"
 reset="\e[0m"
 user=$(id -u)
 #Validation Function to identify the errors.
 error_handler () {
   if [ $? -ne 0 ]; then
-    echo -e "$red Execution of $1 is failure. Please review the logs. $reset"
+    echo -e "$red $1 is failed. Please review the logs. $reset"
     exit 1
   else
-    echo -e "$green Execution of $1 is success. $reset"
+    echo -e "$green $1 is success. $reset"
   fi
 }
 #Creating Logs Folder to store the results
@@ -27,16 +28,21 @@ fi
 #Catalogue Configuration
 start_time=$(date +$s)
 echo -e "$yellow Disabling default version of Nodejs. $reset"
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>>$log
 error_handler nodejs
-echo -e "$yellow Enabling version 20 of Nodejs. $reset"
-dnf module enable nodejs:20 -y
+echo -e "$yellow Enabling version 20 of Nodejs. $reset" &>>$log
+dnf module enable nodejs:20 -y $>>$log
 error_handler nodejs
 echo -e "$yellow Installing Nodejs. $reset"
-dnf install nodejs -y
+dnf install nodejs -y &>>$log
 error_handler Install_nodejs
 echo -e "$yellow Adding system User. $reset"
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+id roboshop
+if [ $? -ne 0 ]; then
+ useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$log
+else
+ echo -e "$yellow User already exists. Skipping...... $reset"
+fi
 error_handler system_user
 mkdir -p /app 
 error_handler app_directory
@@ -44,19 +50,23 @@ curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue
 error_handler download_code
 cd /app 
 error_handler pointing_app_directory
+rm -rf /app/*
+error_handler removing_existing_code
 unzip /tmp/catalogue.zip
 error_handler unzip_code
 cd /app 
 error_handler pointing_app_directory
 npm install &>>$log
 error_handler instaiing_dependencies
-echo -e "$yellow configuring catalogue service.... $reset"
+echo -e "$blue configuring catalogue service.... $reset"
 cp $(echo $PWD)/catalogue.service /etc/systemd/system/catalogue.service
 error_handler service_setup
 systemctl daemon-reload
 systemctl enable catalogue
 systemctl start catalogue
 error_handler start_service
+echo -e "$blue Catalogue service configuration is sucess.... $reset"
+#Configuring the mongodb in catalogue.
 cp $(echo $PWD)/mongo.repo /etc/yum.repos.d/mongo.repo
 error_handler mongo_repo
 dnf install mongodb-mongosh -y
