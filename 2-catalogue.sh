@@ -69,7 +69,7 @@ systemctl start catalogue
 error_handler start_service
 echo -e "$blue Catalogue service configuration is sucess.... $reset"
 #Configuring the mongodb in catalogue.
-cp $script_location/mongo.repo /etc/yum.repos.d/mongo.repo
+cp $script_directory/mongo.repo /etc/yum.repos.d/mongo.repo
 error_handler mongo_repo
 dnf install mongodb-mongosh -y &>>$log
 error_handler install_mongosh
