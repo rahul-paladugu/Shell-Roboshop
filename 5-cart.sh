@@ -51,4 +51,4 @@ systemctl daemon-reload
 systemctl enable cart  &>>$log
 systemctl start cart
 end_time=$(date +%s)
-echo -e "$yellow Time taken to configure CART is $(($end_time - $start_time))Seconds. $reset"
+echo -e "$green Time taken to configure CART is $(($end_time - $start_time))Seconds. $reset"
