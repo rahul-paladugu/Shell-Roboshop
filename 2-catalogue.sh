@@ -6,7 +6,7 @@ yellow="\e[33m"
 blue="\e[34m"
 reset="\e[0m"
 user=$(id -u)
-script_location=$PWD
+script_directory=$PWD
 #Validation Function to identify the errors.
 error_handler () {
   if [ $? -ne 0 ]; then
@@ -47,13 +47,13 @@ fi
 error_handler system_user
 mkdir -p /app 
 error_handler app_directory
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$log
 error_handler download_code
 cd /app 
 error_handler pointing_app_directory
 rm -rf /app/*
 error_handler removing_existing_code
-unzip /tmp/catalogue.zip
+unzip /tmp/catalogue.zip &>>$log
 error_handler unzip_code
 cd /app 
 error_handler pointing_app_directory
@@ -61,17 +61,17 @@ npm install &>>$log
 error_handler instaiing_dependencies
 #Catalogue Service Setup
 echo -e "$blue configuring catalogue service.... $reset"
-cp $script_location/catalogue.service /etc/systemd/system/catalogue.service
+cp $script_directory/catalogue.service /etc/systemd/system/catalogue.service
 error_handler service_setup
-systemctl daemon-reload
-systemctl enable catalogue
+systemctl daemon-reload &>>$log
+systemctl enable catalogue &>>$log
 systemctl start catalogue
 error_handler start_service
 echo -e "$blue Catalogue service configuration is sucess.... $reset"
 #Configuring the mongodb in catalogue.
-cp $(echo $PWD)/mongo.repo /etc/yum.repos.d/mongo.repo
+cp $script_location/mongo.repo /etc/yum.repos.d/mongo.repo
 error_handler mongo_repo
-dnf install mongodb-mongosh -y
+dnf install mongodb-mongosh -y &>>$log
 error_handler install_mongosh
 mongosh --host mongodb.rscloudservices.icu </app/db/master-data.js
 error_handler load_mongo_schema
