@@ -6,6 +6,7 @@ yellow="\e[33m"
 blue="\e[34m"
 reset="\e[0m"
 user=$(id -u)
+script_location=$PWD
 #Validation Function to identify the errors.
 error_handler () {
   if [ $? -ne 0 ]; then
@@ -58,8 +59,9 @@ cd /app
 error_handler pointing_app_directory
 npm install &>>$log
 error_handler instaiing_dependencies
+#Catalogue Service Setup
 echo -e "$blue configuring catalogue service.... $reset"
-cp $(echo $PWD)/catalogue.service /etc/systemd/system/catalogue.service
+cp $script_location/catalogue.service /etc/systemd/system/catalogue.service
 error_handler service_setup
 systemctl daemon-reload
 systemctl enable catalogue
