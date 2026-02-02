@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#Adding Colours
+red="\e[31m"
+green="\e[32m"
+yellow="\e[33m"
+reset="\e[0m"
+
+#Catching Errors
+set -e
+trap 'echo -e "$red Error executing Line: $LINENO Command is $BASH_Command $reset"' ERR
+
+#Enabling Logs
+log_directory="/var/logs/robo-shop"
+mkdir -p $log_directory
+script_name=$(echo $0 | cut -d "." -f1)
+log="$log_directory/$script_name.log"
+#Configuring Redis
+start_time=$(date +%s)
+echo -e "$yellow Disabling default Redis.. $reset"
+dnf module disable redis -y &>>$log
+echo -e "$yellow Enabling Redis version 7.. $reset"
+dnf module enable redis:7 -y &>>$log
+echo -e "$yellow Install Redis.. $reset"
+dnf install redis -y &>>$log
+echo -e "$yellow Binding IP & Disabling protected mode. $reset"
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf
+sed -i '94s/yes/no'/etc/redis/redis.conf
+echo -e "$yellow Enable & Start Redis.. $reset"
+systemctl enable redis &>>$log
+systemctl start redis
+end_time=$(date +%s)
+echo -e "$green Time taken to configure redis is $(($end_time - $start_time))Seconds. $reset"
