@@ -23,7 +23,7 @@ script_dir=$PWD
 #Configuring Cart
 start_time=$(date +%s)
 echo -e "$yellow Installing Maven.. $reset"
-dnf install maven -y
+dnf install maven -y &>>$log
 echo -e "$yellow Creating System User.. $reset"
 if id -u roboshop ; then
  echo -e "$green user already exists. Hence skipping... $reset"
@@ -32,28 +32,28 @@ else
 fi
 echo -e "$yellow Creating App directory and downloading code.. $reset"
 mkdir -p /app
-curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
+curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip  &>>$log
 rm -rf /app/*
 cd /app 
-unzip /tmp/shipping.zip
+unzip /tmp/shipping.zip &>>$log
 echo -e "$yellow Installing dependencies.. $reset"
-cd /app 
-mvn clean package 
-mv target/shipping-1.0.jar shipping.jar
+cd /app
+mvn clean package &>>$log
+mv target/shipping-1.0.jar shipping.jar &>>$log
 #Setup shipping service
 echo -e "$yellow Shipping service setup.. $reset"
 cp $script_dir/shipping.service /etc/systemd/system/shipping.service
-systemctl daemon-reload
-systemctl enable shipping 
+systemctl daemon-reload &>>$log
+systemctl enable shipping &>>$log
 systemctl start shipping
 #Setup shipping service
 echo -e "$yellow configuring SQL connection.. $reset"
-dnf install mysql -y 
+dnf install mysql -y &>>$log
 echo -e "$yellow Loading Schema.. $reset"
-mysql -h mysql.rscloudservices.icu -uroot -pRoboShop@1 < /app/db/schema.sql
-mysql -h mysql.rscloudservices.icu -uroot -pRoboShop@1 < /app/db/app-user.sql
-mysql -h mysql.rscloudservices.icu -uroot -pRoboShop@1 < /app/db/master-data.sql
+mysql -h mysql.rscloudservices.icu -uroot -pRoboShop@1 < /app/db/schema.sql &>>$log
+mysql -h mysql.rscloudservices.icu -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$log
+mysql -h mysql.rscloudservices.icu -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$log
 echo -e "$yellow restarting shipping.. $reset"
-systemctl restart shipping
+systemctl restart shipping &>>$log
 end_time=$(date +%s)
 echo -e "$green Time taken to configure Shipping is $(($end_time - $start_time))Seconds. $reset"
