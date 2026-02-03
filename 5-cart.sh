@@ -28,11 +28,10 @@ dnf module enable nodejs:20 -y &>>$log
 echo -e "$yellow Installing Nodejs $reset"
 dnf install nodejs -y &>>$log
 echo -e "$yellow Creating System User $reset"
-id roboshop &>>$log || true
-if [ $? -ne 0 ]; then
- useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$log
-else 
+if [ id -u roboshop ]; then
  echo -e "$green user already exists. Hence skipping... $reset"
+else 
+ useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$log
 fi
 echo -e "$yellow Creating App directory and downloading code... $reset"
 mkdir -p /app 
