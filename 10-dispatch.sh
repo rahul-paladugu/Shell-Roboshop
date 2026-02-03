@@ -32,9 +32,10 @@ else
 fi
 echo -e "$yellow Creating App directory and downloading code.. $reset"
 mkdir -p /app &>>$log
-curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip &>>$log
+curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip 
+rm -rf /app/*
 cd /app 
-unzip /tmp/dispatch.zip &>>$log
+unzip /tmp/dispatch.zip
 echo -e "$yellow Installing dependencies.. $reset"
 cd /app 
 go mod init dispatch

@@ -33,6 +33,7 @@ fi
 echo -e "$yellow Creating App directory and downloading code.. $reset"
 mkdir -p /app &>>$log
 curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>>$log
+rm -rf /app/*
 cd /app 
 unzip /tmp/payment.zip &>>$log
 echo -e "$yellow Installing dependencies.. $reset"
