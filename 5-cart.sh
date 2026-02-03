@@ -29,7 +29,7 @@ echo -e "$yellow Installing Nodejs $reset"
 dnf install nodejs -y &>>$log
 echo -e "$yellow Creating System User $reset"
 id roboshop &>>$log
-if [ $id -ne 0 ]; then
+if [ $? -ne 0 ]; then
  useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$log
 else 
  echo -e "$green user already exists. Hence skipping... $reset"
