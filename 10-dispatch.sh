@@ -25,7 +25,7 @@ start_time=$(date +%s)
 echo -e "$yellow Installing golang.. $reset"
 dnf install golang -y -y &>>$log
 echo -e "$yellow Creating system user.. $reset"
-if id -u roboshop ; then
+if id -u roboshop &>>$log; then 
  echo -e "$green user already exists. Hence skipping... $reset"
 else 
  useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$log

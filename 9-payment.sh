@@ -25,7 +25,7 @@ start_time=$(date +%s)
 echo -e "$yellow Installing python3.. $reset"
 dnf install python3 gcc python3-devel -y &>>$log
 echo -e "$yellow Creating system user.. $reset"
-if id -u roboshop ; then
+if id -u roboshop &>>$log; then
  echo -e "$green user already exists. Hence skipping... $reset"
 else 
  useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$log
@@ -45,4 +45,4 @@ systemctl daemon-reload &>>$log
 systemctl enable payment  &>>$log
 systemctl start payment &>>$log
 end_time=$(date +%s)
-echo -e "$green Time taken to configure Shipping is $(($end_time - $start_time))Seconds. $reset"
+echo -e "$green Time taken to configure Payment is $(($end_time - $start_time))Seconds. $reset"
