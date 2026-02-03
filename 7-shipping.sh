@@ -22,9 +22,9 @@ script_dir=$PWD
 
 #Configuring Cart
 start_time=$(date +%s)
-echo -e "$yellow Installing Maven $reset"
+echo -e "$yellow Installing Maven.. $reset"
 dnf install maven -y
-echo -e "$yellow Creating System User $reset"
+echo -e "$yellow Creating System User.. $reset"
 if id -u roboshop ; then
  echo -e "$green user already exists. Hence skipping... $reset"
 else 
