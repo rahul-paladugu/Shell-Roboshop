@@ -12,7 +12,7 @@ if [ $id -ne 0 ]; then
 fi
 #Catching Errors
 set -e
-trap 'echo -e "$red Error executing Line: $LINENO Command is $BASH_Command $reset"' ERR
+trap 'echo -e "$red Error executing Line: $LINENO Command: $BASH_COMMAND $reset"' ERR
 
 #Enabling Logs
 log_directory="/var/logs/robo-shop"
