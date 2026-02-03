@@ -45,7 +45,7 @@ cd /app
 unzip /tmp/user.zip
 cd /app 
 echo -e "$yellow Installing Dependencies... $reset"
-npm install
+npm install &>>$log
 #User Service Setup
 echo -e "$yellow Configuring User Service.. $reset"
 cp $script_dir/user.service /etc/systemd/system/user.service
