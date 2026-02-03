@@ -38,13 +38,14 @@ cd /app
 unzip /tmp/dispatch.zip
 echo -e "$yellow Installing dependencies.. $reset"
 cd /app 
-go mod init dispatch
-go get 
-go build
+go mod init dispatch &>>$log
+go get &>>$log
+go build &>>$log
 #Setup Payment Service
 echo -e "$yellow Setup Dispatch service.. $reset"
 cp $script_dir/dispatch.service /etc/systemd/system/dispatch.service
-systemctl daemon-reload
-systemctl daemon-reload
+systemctl daemon-reload &>>$log
+systemctl enable dispatch &>>$log
+systemctl start dispatch &>>$log
 end_time=$(date +%s)
 echo -e "$green Time taken to configure Dispatch is $(($end_time - $start_time))Seconds. $reset"
