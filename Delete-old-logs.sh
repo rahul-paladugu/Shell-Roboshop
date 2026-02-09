@@ -14,9 +14,9 @@ if [ $root_user -ne 0 ]; then
   exit 1
 fi
 
-while [ IFS=read -r log ];
+while IFS= read -r line
 do
- echo -e "Deleting the old logs..${yellow} $log ${reset}"
- rm -rf $logs
- echo -e "Deleted the log -${yellow} $log ${yellow}"
+ echo -e "Deleting the old logs..${yellow} $line ${reset}"
+ rm -f $logs
+ echo -e "Deleted the log -${yellow} $line ${yellow}"
 done <<<$logs
