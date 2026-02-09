@@ -19,4 +19,4 @@ do
  echo -e "Deleting the old logs..${yellow} $line ${reset}"
  rm -f $logs
  echo -e "Deleted the log -${yellow} $line ${yellow}"
-done <<<$logs
+done <<< $logs
